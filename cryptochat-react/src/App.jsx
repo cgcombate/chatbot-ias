@@ -17,6 +17,7 @@ function App() {
   const [decryptInput, setDecryptInput] = useState('');
   const [decryptOutput, setDecryptOutput] = useState('');
   const [status, setStatus] = useState('Ready');
+  const [lastActivityAt, setLastActivityAt] = useState(null);
   const [keyInput, setKeyInput] = useState('3');
   const [logs, setLogs] = useState({ network: [], recipient: [], preview: [] });
   const [incoming, setIncoming] = useState([]);
@@ -32,6 +33,7 @@ function App() {
     setLogs({ network: [], recipient: [], preview: [] });
     setIncoming([]);
     setStatus('History cleared');
+    setLastActivityAt(Date.now());
   };
 
   const newSession = () => {
@@ -40,6 +42,7 @@ function App() {
     setDecryptInput('');
     setDecryptOutput('');
     setStatus('New session started');
+    setLastActivityAt(Date.now());
   };
 
   const processMessage = () => {
@@ -70,6 +73,7 @@ function App() {
       setIncoming((prev) => [`${protocol}: ${encrypted}`, ...prev].slice(0, 30));
       setMessage('');
       setStatus(`Message processed in ${mode} mode`);
+      setLastActivityAt(Date.now());
     } catch (error) {
       setStatus(error.message);
     }
@@ -85,6 +89,7 @@ function App() {
           : fromBase64(input);
       setDecryptOutput(output);
       setStatus('Ciphertext decrypted');
+      setLastActivityAt(Date.now());
     } catch {
       setStatus('Could not decrypt payload');
     }
@@ -112,12 +117,14 @@ function App() {
     ].join('\n');
     exportText('transcript.txt', transcript);
     setStatus('Transcript exported');
+    setLastActivityAt(Date.now());
   };
 
   const exportSession = () => {
     const content = `Mode: ${mode}\nKey: ${computedKey}\n\nIncoming:\n${incoming.join('\n')}`;
     exportText('session.txt', content);
     setStatus('Session exported');
+    setLastActivityAt(Date.now());
   };
 
   const importKey = () => {
@@ -125,6 +132,7 @@ function App() {
     if (value !== null && mode !== 'Asymmetric') {
       setKeyInput(value.trim() || '3');
       setStatus('Key imported');
+      setLastActivityAt(Date.now());
     }
   };
 
@@ -165,6 +173,7 @@ function App() {
                     setDecryptInput(payload);
                     navigate('/decryption');
                     setStatus('Loaded payload to Decryption Panel');
+                    setLastActivityAt(Date.now());
                   }}
                 />
               }
@@ -189,7 +198,7 @@ function App() {
           mode={mode}
           computedKey={computedKey}
           logs={logs}
-          incoming={incoming}
+          lastActivityAt={lastActivityAt}
           onKeyChange={setKeyInput}
           onImportKey={importKey}
           onExportSession={exportSession}

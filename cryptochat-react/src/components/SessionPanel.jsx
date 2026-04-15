@@ -1,16 +1,36 @@
+import { useEffect, useMemo, useState } from 'react';
+
 export default function SessionPanel({
   mode,
   computedKey,
   logs,
-  incoming,
+  lastActivityAt,
   onKeyChange,
   onImportKey,
   onExportSession,
 }) {
   const totalEncrypted = logs.network.length;
   const totalDecrypted = logs.recipient.length;
-  const queueSize = incoming.length;
   const latestCipher = logs.network[0] ?? 'No ciphertext generated yet.';
+  const [now, setNow] = useState(Date.now());
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(Date.now()), 30000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  const lastActivityLabel = useMemo(() => {
+    if (!lastActivityAt) return 'No activity yet';
+    const secondsAgo = Math.max(0, Math.floor((now - lastActivityAt) / 1000));
+    if (secondsAgo < 5) return 'Just now';
+    if (secondsAgo < 60) return `${secondsAgo}s ago`;
+    const minutesAgo = Math.floor(secondsAgo / 60);
+    if (minutesAgo < 60) return `${minutesAgo}m ago`;
+    const hoursAgo = Math.floor(minutesAgo / 60);
+    if (hoursAgo < 24) return `${hoursAgo}h ago`;
+    const daysAgo = Math.floor(hoursAgo / 24);
+    return `${daysAgo}d ago`;
+  }, [lastActivityAt, now]);
 
   return (
     <aside className="w-full rounded-2xl border border-slate-200 bg-white p-4 shadow-soft lg:p-6">
@@ -42,12 +62,12 @@ export default function SessionPanel({
               <p className="text-sm font-semibold text-slate-800 lg:text-base">{totalDecrypted}</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-white p-2">
-              <p className="text-[11px] uppercase tracking-wide text-slate-500">Incoming Queue</p>
-              <p className="text-sm font-semibold text-slate-800 lg:text-base">{queueSize}</p>
-            </div>
-            <div className="rounded-lg border border-slate-200 bg-white p-2">
               <p className="text-[11px] uppercase tracking-wide text-slate-500">Mode</p>
               <p className="text-sm font-semibold text-slate-800 lg:text-base">{mode}</p>
+            </div>
+            <div className="rounded-lg border border-slate-200 bg-white p-2">
+              <p className="text-[11px] uppercase tracking-wide text-slate-500">Last Activity</p>
+              <p className="text-sm font-semibold text-slate-800 lg:text-base">{lastActivityLabel}</p>
             </div>
           </div>
         </div>
