@@ -2,13 +2,11 @@ import { useMemo, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import ComposerBar from './components/ComposerBar';
 import SessionPanel from './components/SessionPanel';
-import Sidebar from './components/Sidebar';
 import TopBar from './components/TopBar';
 import { tabLabelByPath, tabs } from './constants/tabs';
 import { caesar, fromBase64, toBase64 } from './lib/crypto';
 import ChatWorkspaceView from './views/ChatWorkspaceView';
 import DecryptionView from './views/DecryptionView';
-import EncryptionModeView from './views/EncryptionModeView';
 import ReceivePaneView from './views/ReceivePaneView';
 
 function App() {
@@ -134,12 +132,10 @@ function App() {
     <div className="min-h-screen bg-slate-100">
       <TopBar tabs={tabs} activePath={activePath} onNavigate={navigate} onNewSession={newSession} />
 
-      <main className="grid grid-cols-1 gap-3 p-4 xl:grid-cols-[220px_1fr_300px]">
-        <Sidebar tabs={tabs} activePath={activePath} onNavigate={navigate} />
-
+      <main className="grid grid-cols-1 gap-3 p-4 xl:grid-cols-[1fr_300px]">
         <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-soft">
           <div className="mb-4 flex items-center gap-2">
-            <h1 className="text-xl font-bold text-slate-800">{activeLabel} • Project Aurora</h1>
+            <h1 className="text-xl font-bold text-slate-800">{activeLabel}</h1>
             <div className="ml-auto flex gap-2">
               <button onClick={clearHistory} className="rounded-xl border border-slate-200 px-3 py-1 text-xs font-medium hover:bg-slate-100">Clear History</button>
               <button onClick={exportTranscript} className="rounded-xl bg-brand px-3 py-1 text-xs font-semibold text-white hover:bg-sky-500">Export Transcript</button>
@@ -148,7 +144,6 @@ function App() {
 
           <Routes>
             <Route path="/" element={<ChatWorkspaceView logs={logs} />} />
-            <Route path="/encryption" element={<EncryptionModeView mode={mode} setMode={setMode} />} />
             <Route
               path="/decryption"
               element={
@@ -177,20 +172,24 @@ function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
 
-          <ComposerBar
-            mode={mode}
-            setMode={setMode}
-            message={message}
-            setMessage={setMessage}
-            onSend={processMessage}
-            onClear={() => setMessage('')}
-          />
+          {activePath === '/' && (
+            <ComposerBar
+              mode={mode}
+              setMode={setMode}
+              message={message}
+              setMessage={setMessage}
+              onSend={processMessage}
+              onClear={() => setMessage('')}
+            />
+          )}
           <p className="mt-3 text-xs text-slate-500">{status}</p>
         </section>
 
         <SessionPanel
           mode={mode}
           computedKey={computedKey}
+          logs={logs}
+          incoming={incoming}
           onKeyChange={setKeyInput}
           onImportKey={importKey}
           onExportSession={exportSession}

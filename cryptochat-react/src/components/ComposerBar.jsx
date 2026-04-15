@@ -9,7 +9,11 @@ export default function ComposerBar({
   return (
     <div className="mt-4 flex flex-wrap items-center gap-2 rounded-2xl border border-slate-200 bg-slate-50 p-3">
       <label className="text-xs font-semibold text-slate-500">Mode</label>
-      <select value={mode} onChange={(e) => setMode(e.target.value)} className="rounded-xl border border-slate-200 bg-white px-2 py-1 text-sm">
+      <select
+        value={mode}
+        onChange={(e) => setMode(e.target.value)}
+        className="rounded-2xl border border-slate-200 bg-white px-3 py-1.5 text-sm shadow-sm outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+      >
         <option>Symmetric</option>
         <option>Asymmetric</option>
       </select>
