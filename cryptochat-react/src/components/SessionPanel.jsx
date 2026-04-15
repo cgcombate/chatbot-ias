@@ -13,7 +13,7 @@ export default function SessionPanel({
   const latestCipher = logs.network[0] ?? 'No ciphertext generated yet.';
 
   return (
-    <aside className="rounded-2xl border border-slate-200 bg-white p-4 shadow-soft">
+    <aside className="w-full rounded-2xl border border-slate-200 bg-white p-4 shadow-soft lg:p-6">
       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <h2 className="pt-1 text-sm font-bold">Session Keys & Logs</h2>
         <div className="w-full sm:max-w-[300px] rounded-xl border border-slate-200 bg-slate-50 p-2">
@@ -29,32 +29,32 @@ export default function SessionPanel({
         </div>
       </div>
 
-      <div className="mt-3 space-y-2">
-        <div className="rounded-xl border border-slate-200 bg-slate-50 p-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Live Session Stats</p>
-          <div className="mt-2 grid grid-cols-2 gap-2">
+      <div className="mt-3 space-y-2 lg:space-y-3">
+        <div className="rounded-xl border border-slate-200 bg-slate-50 p-3 lg:p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 lg:text-sm">Live Session Stats</p>
+          <div className="mt-2 grid grid-cols-2 gap-2 lg:gap-3">
             <div className="rounded-lg border border-slate-200 bg-white p-2">
               <p className="text-[11px] uppercase tracking-wide text-slate-500">Encrypted</p>
-              <p className="text-sm font-semibold text-slate-800">{totalEncrypted}</p>
+              <p className="text-sm font-semibold text-slate-800 lg:text-base">{totalEncrypted}</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-white p-2">
               <p className="text-[11px] uppercase tracking-wide text-slate-500">Decrypted</p>
-              <p className="text-sm font-semibold text-slate-800">{totalDecrypted}</p>
+              <p className="text-sm font-semibold text-slate-800 lg:text-base">{totalDecrypted}</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-white p-2">
               <p className="text-[11px] uppercase tracking-wide text-slate-500">Incoming Queue</p>
-              <p className="text-sm font-semibold text-slate-800">{queueSize}</p>
+              <p className="text-sm font-semibold text-slate-800 lg:text-base">{queueSize}</p>
             </div>
             <div className="rounded-lg border border-slate-200 bg-white p-2">
               <p className="text-[11px] uppercase tracking-wide text-slate-500">Mode</p>
-              <p className="text-sm font-semibold text-slate-800">{mode}</p>
+              <p className="text-sm font-semibold text-slate-800 lg:text-base">{mode}</p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-xl border border-slate-200 bg-indigo-50 p-3">
-          <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600">Latest Ciphertext</p>
-          <p className="mt-1 break-all font-mono text-xs text-indigo-900">{latestCipher}</p>
+        <div className="rounded-xl border border-slate-200 bg-indigo-50 p-3 lg:p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600 lg:text-sm">Latest Ciphertext</p>
+          <p className="mt-1 break-all font-mono text-xs text-indigo-900 lg:text-sm">{latestCipher}</p>
         </div>
       </div>
       <div className="mt-3 flex gap-2">

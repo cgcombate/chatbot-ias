@@ -132,8 +132,8 @@ function App() {
     <div className="min-h-screen bg-slate-100">
       <TopBar tabs={tabs} activePath={activePath} onNavigate={navigate} onNewSession={newSession} />
 
-      <main className="grid grid-cols-1 gap-3 p-4 xl:grid-cols-[1fr_300px]">
-        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-soft">
+      <main className="grid grid-cols-1 gap-3 p-4 lg:gap-4 lg:p-6 xl:p-8">
+        <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-soft lg:p-6">
           <div className="mb-4 flex items-center gap-2">
             <h1 className="text-xl font-bold text-slate-800">{activeLabel}</h1>
             <div className="ml-auto flex gap-2">

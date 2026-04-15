@@ -18,11 +18,11 @@ const cards = [
 
 export default function ChatWorkspaceView({ logs }) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-3 lg:space-y-4">
       {cards.map((card) => (
-        <div key={card.key} className={`rounded-2xl border p-3 ${card.tone}`}>
-          <p className="mb-2 text-sm font-semibold">{card.title}</p>
-          <div className="space-y-1 font-mono text-xs">
+        <div key={card.key} className={`rounded-2xl border p-3 lg:p-4 ${card.tone}`}>
+          <p className="mb-2 text-sm font-semibold lg:text-base">{card.title}</p>
+          <div className="space-y-1 font-mono text-xs lg:text-sm">
             {(logs[card.key].length ? logs[card.key] : ['No messages yet.']).map((item, idx) => (
               <p key={`${card.key}-${idx}`}>{item}</p>
             ))}
